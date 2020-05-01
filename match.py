@@ -101,7 +101,11 @@ def contr_set(gr):
 
     for l in gr.l:
         if match[l] is None:
-            dfs_contr_set(l, newgr, used)
+            q = []
+            dfs_contr_set(l, newgr, used, q)
+            print('contr set: start dfs from', l)
+            print('added vertexes ', q)
+            print('*********')
 
     lp = set()
     rp = set()
@@ -117,16 +121,19 @@ def contr_set(gr):
         if (not used[v]) and v in gr.r:
             rm.add(v)
 
+    print('lm is ', lm)
+    print('rp is ', rp)
     return lm.union(rp)
 
 
-def dfs_contr_set(v, newgr, used):
+def dfs_contr_set(v, newgr, used, q):
     if used[v]:
         return False
     used[v] = True
+    q.append(v)
 
     for u in newgr[v]:
-        dfs_contr_set(u, newgr, used)
+        dfs_contr_set(u, newgr, used, q)
 
 def print_gr(gr):
     for v in gr.v:

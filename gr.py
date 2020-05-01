@@ -98,6 +98,14 @@ gr.v = {'A' : ['g', 'h'], \
         'J' : ['d', 'e'] \
        }
 
+gr.v = {'x1' : ['y3'], \
+        'x2' : ['y2', 'y5'], \
+        'x3' : ['y1', 'y4'], \
+        'x4' : ['y1', 'y4'], \
+        'x5' : ['y2', 'y3'], \
+       }
+
+
 for v in list(gr.v):
     for to in list(gr.v[v]):
         if to not in gr.v:
