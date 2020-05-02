@@ -125,8 +125,8 @@ def contr_set(gr):
         if (not used[v]) and v in gr.r:
             rm.add(v)
 
-    print('lm is ', lm)
-    print('rp is ', rp)
+    print('l- is ', lm)
+    print('r+ is ', rp)
     return lm.union(rp)
 
 
@@ -148,20 +148,36 @@ def print_gr(gr):
 if __name__ == "__main__":
     gr = Graph()
 
-    gr.v = {'A' : ['g', 'h'], \
-            'B' : ['a', 'c', 'f', 'h', 'j'], \
-            'C' : ['g'], \
-            'D' : ['a', 'g', 'h', 'i'], \
-            'E' : ['d', 'g'], \
-            'F' : ['d', 'f', 'h'], \
-            'G' : ['d'], \
-            'H' : ['b', 'j'], \
-            'I' : ['a', 'c', 'e', 'h'], \
-            'J' : ['d', 'e'] \
+    #  gr.v = {'A' : ['g', 'h'], \
+            #  'B' : ['a', 'c', 'f', 'h', 'j'], \
+            #  'C' : ['g'], \
+            #  'D' : ['a', 'g', 'h', 'i'], \
+            #  'E' : ['d', 'g'], \
+            #  'F' : ['d', 'f', 'h'], \
+            #  'G' : ['d'], \
+            #  'H' : ['b', 'j'], \
+            #  'I' : ['a', 'c', 'e', 'h'], \
+            #  'J' : ['d', 'e'] \
+           #  }
+
+    #  gr.l = set(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'])
+    #  gr.r = set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
+
+    gr.v = { \
+            'x1' : ['y3', 'y5', 'y10'], \
+            'x2' : ['y3'], \
+            'x3' : ['y5', 'y7', 'y10'], \
+            'x4' : ['y1'], \
+            'x5' : ['y10'], \
+            'x6' : ['y6', 'y7'], \
+            'x7' : ['y3', 'y5'], \
+            'x8' : ['y4', 'y5', 'y6', 'y8'], \
+            'x9' : ['y2', 'y4', 'y8'], \
+            'x10' : ['y4', 'y7', 'y10'], \
            }
 
-    gr.l = set(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'])
-    gr.r = set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
+    gr.l = set(['x1','x2', 'x3','x4','x5','x6','x7','x8','x9','x10'])
+    gr.r = set(['y1','y2', 'y3','y4','y5','y6','y7','y8','y9','y10'])
 
     #  make bidirecional
     for v in list(gr.v):

@@ -38,7 +38,7 @@ def dfs2(gr_t, v, c_num):
 
     return True
 
-def main(gr):
+def comp_main(gr):
     gr_t = Graph()
 
     for u in gr.get_all_v():
@@ -86,4 +86,4 @@ def main(gr):
 if __name__ == '__main__':
     gr = Graph()
     gr.v = { 'a' : ['b', 'c'], 'b' : ['a'], 'c' : ['x'], 'x' : [] }
-    main(gr)
+    comp_main(gr)
