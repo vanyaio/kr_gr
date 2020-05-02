@@ -48,8 +48,11 @@ def main(gr):
     for v in gr.get_all_v():
         if (not gr.used[v]):
             dfs1(gr, v)
+            print('dfs1 from ', v)
+            print(gr.order)
 
     gr.order.reverse()
+    print('true (reversed) order ', gr.order)
     for v in gr.v:
         for u in gr.v[v]:
             gr_t.v[u] = v
@@ -62,19 +65,15 @@ def main(gr):
             gr_t.cc[c_num] = set()
             dfs2(gr_t, v, c_num)
 
-    #  gr.comps = gr_t.comps.reverse()
-    #  c_num = 0
-    #  for c in gr.comps:
-        #  c_num += 1
-        #  print('component ', c_num)
-        #  print(c)
+            print('dfs2 from ', v)
+            print('got component ', c_num)
+            print("it's vertexes ", gr_t.comps[c_num])
+            print("it's c->c ", c_num, ' -> ', gr_t.cc[c_num])
 
-    #  print('v -> c', gr_t.v_c)
     print('comps')
     for c in gr_t.comps:
         print(c, gr_t.comps[c])
 
-    gr
     for c in gr_t.cc:
         for cs in gr_t.cc[c]:
             if cs not in gr.cc:
