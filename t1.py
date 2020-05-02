@@ -2,10 +2,17 @@ class Graph:
     def __init__(self):
         self.v = {}
         self.used = {}
+
         self.comps = {}
         self.v_c = {}
         self.cc = {}
         self.order = []
+
+        self.tin = {}
+        self.fup = {}
+
+        self.cut_pnts = set()
+        self.br = set()
 
     def get_all_v(self):
         res = set()
@@ -14,6 +21,26 @@ class Graph:
             for u in self.v[v]:
                 res.add(u)
         return res
+
+    def fill(self):
+        for v in self.get_all_v():
+            if v not in gr.v:
+                gr.v[v] = []
+
+        for v in self.get_all_v():
+            self.tin[v] = None
+        self.timer = 1
+
+
+    def make_bidirectional(self):
+        self.fill()
+        for v in list(gr.v):
+            for to in list(gr.v[v]):
+                if to not in gr.v:
+                    gr.v[to] = []
+                if v not in gr.v[to]:
+                    gr.v[to].append(v)
+
 
 def dfs1(gr, v):
     if gr.used[v]:
@@ -83,7 +110,103 @@ def comp_main(gr):
 
     print('c -> c', gr.cc)
 
+#cut points
+def dfs_ptr(gr, v, p=None):
+    gr.used[v] = True
+    gr.tin[v] = gr.timer
+    gr.fup[v] = gr.timer
+    gr.timer += 1
+    kids = 0
+
+    for to in gr.v[v]:
+        if (to == p):
+            continue
+        if gr.used[to]:
+            gr.fup[v] = min(gr.fup[v], gr.tin[to])
+        else:
+            dfs_ptr(gr, to, v)
+            gr.fup[v] = min(gr.fup[v], gr.fup[to])
+            if (gr.fup[to] >= gr.tin[v] and p is not None):
+               gr.cut_pnts.add(v)
+            kids += 1
+
+    if (p is None and kids > 1):
+       gr.cut_pnts.add(v)
+
+def dfs_br(gr, v, p=None):
+    gr.used[v] = True
+    gr.tin[v] = gr.timer
+    gr.fup[v] = gr.timer
+    gr.timer += 1
+
+    for to in gr.v[v]:
+        if (to == p):
+            continue
+        if gr.used[to]:
+            gr.fup[v] = min(gr.fup[v], gr.tin[to])
+        else:
+            dfs_br(gr, to, v)
+            gr.fup[v] = min(gr.fup[v], gr.fup[to])
+            if (gr.fup[to] > gr.tin[v]):
+               gr.br.add((v,to))
+
+def second_main(gr):
+    #cut points:
+    for u in gr.get_all_v():
+        gr.used[u] = False
+
+    for u in gr.get_all_v():
+        if not gr.used[u]:
+            dfs_ptr(gr, u)
+
+    print('cut points are')
+    for v in gr.cut_pnts:
+        print(v)
+
+    #bridges
+    for v in gr.get_all_v():
+        gr.tin[v] = None
+    gr.fup = {}
+
+    for u in gr.get_all_v():
+        gr.used[u] = False
+
+    for u in gr.get_all_v():
+        if not gr.used[u]:
+            dfs_br(gr, u)
+
+    print('bridges are')
+    for e in gr.br:
+        print(e)
+
+    #block part
+    b_gr = Graph()
+    for v in gr.get_all_v():
+        if v in gr.cut_pnts:
+            continue
+        b_gr.v[v] = []
+        for u in gr.v[v]:
+            if u in gr.cut_pnts:
+                continue
+            b_gr.v[v].append(u)
+    b_gr.make_bidirectional()
+    print("graphy without cut points", b_gr.v)
+
 if __name__ == '__main__':
+    #  gr = Graph()
+    #  gr.v = { 'a' : ['b', 'c'], 'b' : ['a'], 'c' : ['x'], }
+    #  gr.fill()
+    #  comp_main(gr)
+
+    #  gr = Graph()
+    #  gr.v = { 'a' : ['b', 'c'], 'b' : ['a'], 'c' : ['x'], 'x' : [] }
+
     gr = Graph()
-    gr.v = { 'a' : ['b', 'c'], 'b' : ['a'], 'c' : ['x'], 'x' : [] }
-    comp_main(gr)
+    #  gr.v = { 'a' : ['c', 'b'], 'b' : ['x', 'a'], 'c' : ['d', 'b'], \
+            #  #  'a1' : ['c1'], 'b1' : ['c1'], 'c1' : ['d1'], \
+            #  }  #'x' : [] }
+    gr.v = { 'a' : ['c', 'b', 'd', 'f'], 'b' : ['c'], 'd' : ['f'] \
+            #  'a1' : ['c1'], 'b1' : ['c1'], 'c1' : ['d1'], \
+            }  #'x' : [] }
+    gr.make_bidirectional()
+    second_main(gr)
