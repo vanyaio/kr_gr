@@ -118,10 +118,10 @@ def comp_main(gr):
 
 #cut points
 def dfs_ptr(gr, v, p=None):
-    print('dfs_ptr from ', v)
     gr.used[v] = True
     gr.tin[v] = gr.timer
     gr.fup[v] = gr.timer
+    print('dfs_ptr from ', v, 'tin', gr.timer, 'fup', gr.timer)
     gr.timer += 1
     kids = 0
 
@@ -157,18 +157,28 @@ def dfs_br(gr, v, p=None):
     gr.used[v] = True
     gr.tin[v] = gr.timer
     gr.fup[v] = gr.timer
+    print('dfs_br from ', v, 'tin ', gr.timer, 'fup ', gr.timer)
     gr.timer += 1
 
     for to in gr.v[v]:
         if (to == p):
             continue
         if gr.used[to]:
+            print('now v is ', v)
+            print('back edge ', to, ' fup: ', gr.fup[v])
             gr.fup[v] = min(gr.fup[v], gr.tin[to])
-        else:
+            print('new fup: ', gr.fup[v])
+    for to in gr.v[v]:
+        if not gr.used[to]:
             dfs_br(gr, to, v)
+            old_fup = gr.fup[v]
             gr.fup[v] = min(gr.fup[v], gr.fup[to])
+            print('now v is ', v)
+            print('forward edge ',to,' old fup: ',old_fup,' new fup: ',gr.fup[v])
             if (gr.fup[to] > gr.tin[v]):
-               gr.br.add((v,to))
+                print('fup[to]: ', gr.fup[to], ' >= tin[v] ', gr.tin[v])
+                print((v,to), ' is bridge')
+                gr.br.add((v,to))
 
 def second_main(gr):
     print('cut points')
