@@ -8,7 +8,6 @@ def main(gr):
         d_gr.v[vr] = []
         d_gr.v[vl] = []
 
-    #  print(gr.get_all_v())
     for v in gr.get_all_v():
 
         if (not v in gr.v):
@@ -34,6 +33,14 @@ def main(gr):
     print(d_gr.v)
 
     match.main(d_gr)
+    for v in d_gr.get_all_v():
+        if v[-1] == 'R':
+            d_gr.r.add(v)
+        else:
+            d_gr.l.add(v)
+
+    c_s = match.contr_set(d_gr)
+    print("contr set is ", c_s)
 
 if __name__ == "__main__":
     gr = match.Graph()

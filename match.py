@@ -145,41 +145,31 @@ def print_gr(gr):
             print(v, gr.match[v])
 
 
-#  if __name__ == "__main__":
-    #  gr = Graph()
-    #  gr.v = {'x1' : ['y1','y2'], 'x2' : ['y3'], 'x3' : ['y3'], \
-            #  'y1' : ['x1'], 'y2' : ['x1'], 'y3' : ['x2', 'x3'] }
+if __name__ == "__main__":
+    gr = Graph()
 
-    #  gr.v = {'A' : ['g', 'h'], \
-            #  'B' : ['a', 'c', 'f', 'h', 'j'], \
-            #  'C' : ['g'], \
-            #  'D' : ['a', 'g', 'h', 'i'], \
-            #  'E' : ['d', 'g'], \
-            #  'F' : ['d', 'f', 'h'], \
-            #  'G' : ['d'], \
-            #  'H' : ['b', 'j'], \
-            #  'I' : ['a', 'c', 'e', 'h'], \
-            #  'J' : ['d', 'e'] \
-           #  }
+    gr.v = {'A' : ['g', 'h'], \
+            'B' : ['a', 'c', 'f', 'h', 'j'], \
+            'C' : ['g'], \
+            'D' : ['a', 'g', 'h', 'i'], \
+            'E' : ['d', 'g'], \
+            'F' : ['d', 'f', 'h'], \
+            'G' : ['d'], \
+            'H' : ['b', 'j'], \
+            'I' : ['a', 'c', 'e', 'h'], \
+            'J' : ['d', 'e'] \
+           }
 
-    #  gr.l = set(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'])
-    #  gr.r = set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
+    gr.l = set(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'])
+    gr.r = set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
 
-    #  gr.v = {'x1' : ['y3'], \
-            #  'x2' : ['y2', 'y5'], \
-            #  'x3' : ['y1', 'y4'], \
-            #  'x4' : ['y1', 'y4'], \
-            #  'x5' : ['y2', 'y3'], \
-           #  }
+    #  make bidirecional
+    for v in list(gr.v):
+        for to in list(gr.v[v]):
+            if to not in gr.v:
+                gr.v[to] = []
+            gr.v[to].append(v)
 
-
-    #make bidirecional
-    #  for v in list(gr.v):
-        #  for to in list(gr.v[v]):
-            #  if to not in gr.v:
-                #  gr.v[to] = []
-            #  gr.v[to].append(v)
-
-    #  main(gr)
-    #  c_s = contr_set(gr)
-    #  print("contr set is ", c_s)
+    main(gr)
+    c_s = contr_set(gr)
+    print("contr set is ", c_s)
