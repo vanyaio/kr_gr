@@ -14,6 +14,20 @@ class Graph:
                 res.add(u)
         return res
 
+    def fill(self):
+        for v in self.get_all_v():
+            if v not in gr.v:
+                gr.v[v] = []
+
+    def make_bidirectional(self):
+        self.fill()
+        for v in list(gr.v):
+            for to in list(gr.v[v]):
+                if to not in gr.v:
+                    gr.v[to] = []
+                if v not in gr.v[to]:
+                    gr.v[to].append(v)
+
 def dfs(gr, v, q):
     if gr.used[v]:
         return False
@@ -180,12 +194,13 @@ if __name__ == "__main__":
     gr.r = set(['y1','y2', 'y3','y4','y5','y6','y7','y8','y9','y10'])
 
     #  make bidirecional
-    for v in list(gr.v):
-        for to in list(gr.v[v]):
-            if to not in gr.v:
-                gr.v[to] = []
-            gr.v[to].append(v)
+    #  for v in list(gr.v):
+        #  for to in list(gr.v[v]):
+            #  if to not in gr.v:
+                #  gr.v[to] = []
+            #  gr.v[to].append(v)
 
+    gr.make_bidirectional()
     main(gr)
     c_s = contr_set(gr)
     print("contr set is ", c_s)

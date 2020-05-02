@@ -190,7 +190,10 @@ def second_main(gr):
                 continue
             b_gr.v[v].append(u)
     b_gr.make_bidirectional()
-    print("graphy without cut points", b_gr.v)
+    print("graph without cut points", b_gr.v)
+
+    print('*' * 8)
+    comp_main(b_gr)
 
 if __name__ == '__main__':
     #  gr = Graph()
