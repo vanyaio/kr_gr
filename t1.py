@@ -54,16 +54,13 @@ def dfs1(gr, v):
 
 def dfs2(gr_t, v, c_num):
     if gr_t.used[v]:
-        return False
+        return
     gr_t.used[v] = True
     gr_t.comps[c_num].append(v)
     gr_t.v_c[v] = c_num
 
     for u in gr_t.v[v]:
-        if not dfs2(gr_t, u, c_num):
-            gr_t.cc[c_num].add(gr_t.v_c[u])
-
-    return True
+        dfs2(gr_t, u, c_num)
 
 def comp_main(gr):
     gr_t = Graph()
@@ -80,9 +77,12 @@ def comp_main(gr):
 
     gr.order.reverse()
     print('true (reversed) order ', gr.order)
+
+    for v in gr.get_all_v():
+        gr_t.v[v] = []
     for v in gr.v:
         for u in gr.v[v]:
-            gr_t.v[u] = v
+            gr_t.v[u].append(v)
 
     c_num = 0
     for v in gr.order:
@@ -95,7 +95,14 @@ def comp_main(gr):
             print('dfs2 from ', v)
             print('got component ', c_num)
             print("it's vertexes ", gr_t.comps[c_num])
-            print("it's c->c ", c_num, ' -> ', gr_t.cc[c_num])
+            #  print("it's c->c ", c_num, ' -> ', gr_t.cc[c_num])
+
+    for v in gr_t.get_all_v():
+        for u in gr_t.v[v]:
+            v_num = gr_t.v_c[v]
+            u_num = gr_t.v_c[u]
+            gr_t.cc[v_num].add(u_num)
+
 
     print('comps')
     for c in gr_t.comps:
@@ -196,20 +203,30 @@ def second_main(gr):
     comp_main(b_gr)
 
 if __name__ == '__main__':
-    #  gr = Graph()
-    #  gr.v = { 'a' : ['b', 'c'], 'b' : ['a'], 'c' : ['x'], }
-    #  gr.fill()
-    #  comp_main(gr)
-
-    #  gr = Graph()
-    #  gr.v = { 'a' : ['b', 'c'], 'b' : ['a'], 'c' : ['x'], 'x' : [] }
+    gr = Graph()
+    gr.v = { 'a' : ['f', 'j', 'k'], \
+             'b' : ['l', ], \
+             'd' : ['e'], \
+             'g' : ['a', 'b'], \
+             'h' : ['d', 'i'], \
+             'i' : ['a', 'e', 'g'], \
+             'j' : ['b', 'i'], \
+             'k' : ['g'], \
+             'l' : ['e'], \
+           }
+    gr.fill()
+    comp_main(gr)
 
     gr = Graph()
-    #  gr.v = { 'a' : ['c', 'b'], 'b' : ['x', 'a'], 'c' : ['d', 'b'], \
-            #  #  'a1' : ['c1'], 'b1' : ['c1'], 'c1' : ['d1'], \
-            #  }  #'x' : [] }
-    gr.v = { 'a' : ['c', 'b', 'd', 'f'], 'b' : ['c'], 'd' : ['f'] \
-            #  'a1' : ['c1'], 'b1' : ['c1'], 'c1' : ['d1'], \
-            }  #'x' : [] }
+    gr.v = { 'a' : ['f', 'j', 'k'], \
+             'b' : ['l', ], \
+             'd' : ['e'], \
+             'g' : ['a', 'b'], \
+             'h' : ['d', 'i'], \
+             'i' : ['a', 'e', 'g'], \
+             'j' : ['b', 'i'], \
+             'k' : ['g'], \
+             'l' : ['e'], \
+           }
     gr.make_bidirectional()
     second_main(gr)
