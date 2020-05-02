@@ -73,7 +73,7 @@ def comp_main(gr):
         if (not gr.used[v]):
             dfs1(gr, v)
             print('dfs1 from ', v)
-            print(gr.order)
+            print('current order', gr.order)
 
     gr.order.reverse()
     print('true (reversed) order ', gr.order)
@@ -114,11 +114,11 @@ def comp_main(gr):
                 gr.cc[cs] = set()
             gr.cc[cs].add(c)
 
-
     print('c -> c', gr.cc)
 
 #cut points
 def dfs_ptr(gr, v, p=None):
+    print('dfs_ptr from ', v)
     gr.used[v] = True
     gr.tin[v] = gr.timer
     gr.fup[v] = gr.timer
@@ -129,16 +129,29 @@ def dfs_ptr(gr, v, p=None):
         if (to == p):
             continue
         if gr.used[to]:
+            print('now v is ', v)
+            print('back edge ', to, ' fup: ', gr.fup[v])
             gr.fup[v] = min(gr.fup[v], gr.tin[to])
-        else:
+            print('new fup: ', gr.fup[v])
+
+    for to in gr.v[v]:
+        if (to == p):
+            continue
+        if not gr.used[to]:
             dfs_ptr(gr, to, v)
+            old_fup = gr.fup[v]
             gr.fup[v] = min(gr.fup[v], gr.fup[to])
+            print('now v is ', v)
+            print('forward edge ',to,' old fup: ',old_fup,' new fup: ', gr.fup[v])
             if (gr.fup[to] >= gr.tin[v] and p is not None):
-               gr.cut_pnts.add(v)
+                print('fup[to]: ', gr.fup[to], ' >= tin[v] ', gr.tin[v])
+                print(v, ' is cut point')
+                gr.cut_pnts.add(v)
             kids += 1
 
     if (p is None and kids > 1):
-       gr.cut_pnts.add(v)
+        print(v, ' is cut point as root with several kids')
+        gr.cut_pnts.add(v)
 
 def dfs_br(gr, v, p=None):
     gr.used[v] = True
