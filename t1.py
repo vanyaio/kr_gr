@@ -158,7 +158,7 @@ def dfs_br(gr, v, p=None):
                gr.br.add((v,to))
 
 def second_main(gr):
-    #cut points:
+    print('cut points')
     for u in gr.get_all_v():
         gr.used[u] = False
 
@@ -170,7 +170,7 @@ def second_main(gr):
     for v in gr.cut_pnts:
         print(v)
 
-    #bridges
+    print('bridges')
     for v in gr.get_all_v():
         gr.tin[v] = None
     gr.fup = {}
@@ -186,7 +186,7 @@ def second_main(gr):
     for e in gr.br:
         print(e)
 
-    #block part
+    print('block part')
     b_gr = Graph()
     for v in gr.get_all_v():
         if v in gr.cut_pnts:
@@ -213,6 +213,7 @@ if __name__ == '__main__':
              'j' : ['b', 'i'], \
              'k' : ['g'], \
              'l' : ['e'], \
+             'c' : [], \
            }
     gr.fill()
     comp_main(gr)
@@ -227,6 +228,7 @@ if __name__ == '__main__':
              'j' : ['b', 'i'], \
              'k' : ['g'], \
              'l' : ['e'], \
+             'c' : [], \
            }
     gr.make_bidirectional()
     second_main(gr)
