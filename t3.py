@@ -6,6 +6,7 @@ class Graph:
     def __init__(self,graph):
         self.graph = graph # residual graph
         self. ROW = len(graph)
+        self.name = {}
         #self.COL = len(gr[0])
 
     '''Returns true if there is a path from source 's' to sink 't' in 
@@ -68,22 +69,38 @@ class Graph:
             # update residual capacities of the edges and reverse edges 
             # along the path 
             v = sink
+            step = []
             while(v !=  source):
                 u = parent[v]
                 self.graph[u][v] -= path_flow
                 self.graph[v][u] += path_flow
-                print((u,v),self.graph[u][v],(v,u),self.graph[v][u])
+                #  print((u,v),self.graph[u][v],(v,u),self.graph[v][u])
+
+                un = self.name[u]
+                vn = self.name[v]
+                stroka = ''
+                stroka += str((un,vn)) + ' ' + str(self.graph[u][v])
+                stroka += ' ' + str((vn,un)) + ' ' + str(self.graph[v][u])
+                step.append(stroka)
+
                 v = parent[v]
+
+            step.reverse()
+            for stroka in step:
+                print(stroka)
 
         gr_len = len(self.graph)
         map = {}
         for i in range(gr_len):
-            map[i] = []
+            iname = self.name[i]
+            map[iname] = []
 
         for v, arr in enumerate(self.graph): 
             for u, c in enumerate(self.graph[v]):
                 if (c != 0):
-                    map[v].append((u, c))
+                    un = self.name[u]
+                    vn = self.name[v]
+                    map[vn].append((un, c))
         print(map)
         return max_flow
   
@@ -118,7 +135,18 @@ for v in map:
         u = p[0]
         c = p[1]
         graph[v][u] = c
-print(graph)
 g = Graph(graph)
+g.name = {
+        0 : 's2', 
+        1 : 's1', 
+        2 : 's3', 
+        3 : 'u1',
+        4 : 'u3',
+        5 : 'u2',
+        6 : 'u4',
+        7 : 't1',
+        8 : 't2',
+        9 : 't',
+        }
 source = 0; sink = 9
 print ("The maximum possible flow is %d " % g.FordFulkerson(source, sink))
