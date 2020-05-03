@@ -63,7 +63,7 @@ class Graph:
                 s = parent[s] 
   
             # Add path flow to overall flow 
-            print("path flow", path_flow)
+            print("мин. поток", path_flow)
             max_flow +=  path_flow 
   
             # update residual capacities of the edges and reverse edges 
@@ -80,7 +80,7 @@ class Graph:
                 vn = self.name[v]
                 stroka = ''
                 stroka += str((un,vn)) + ' ' + str(self.graph[u][v])
-                stroka += ' ' + str((vn,un)) + ' ' + str(self.graph[v][u])
+                stroka += ', ' + str((vn,un)) + ' ' + str(self.graph[v][u])
                 step.append(stroka)
 
                 v = parent[v]
