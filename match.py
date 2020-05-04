@@ -84,7 +84,7 @@ def main(gr):
                 gr.match[v] = u
                 break
 
-    print('curr gr:')
+    print('текущий граф:')
     print_gr(gr)
     print('________________')
     for v in gr.v:
@@ -95,9 +95,10 @@ def main(gr):
         if gr.match[v] is not None:
             continue
         if dfs(gr, v, q):
-            print('dfs from ', v, 'and q is')
+            print('dfs из ', v, ', цепь:')
             print(q)
-            print('curr gr:')
+            #  print('curr gr:')
+            print('текущий граф:')
             print_gr(gr)
             print('________________')
 
@@ -121,8 +122,11 @@ def contr_set(gr):
         if gr.match[l] is None:
             q = []
             dfs_contr_set(l, newgr, used, q)
-            print('contr set: start dfs from', l)
-            print('added vertexes ', q)
+            #  print('contr set: start dfs from', l)
+            #  print('added vertexes ', q)
+            print('contr set: dfs из', l)
+            print('добавляем вершины', q)
+            #  print('added vertexes ', q)
             print('*********')
 
     lp = set()
@@ -141,6 +145,7 @@ def contr_set(gr):
 
     print('l- is ', lm)
     print('r+ is ', rp)
+    print('l+ (max def set) is ', lp)
     return lm.union(rp)
 
 
@@ -177,21 +182,37 @@ if __name__ == "__main__":
     #  gr.l = set(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'])
     #  gr.r = set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'])
 
-    gr.v = { \
-            'x1' : ['y3', 'y5', 'y10'], \
-            'x2' : ['y3'], \
-            'x3' : ['y5', 'y7', 'y10'], \
-            'x4' : ['y1'], \
-            'x5' : ['y10'], \
-            'x6' : ['y6', 'y7'], \
-            'x7' : ['y3', 'y5'], \
-            'x8' : ['y4', 'y5', 'y6', 'y8'], \
-            'x9' : ['y2', 'y4', 'y8'], \
-            'x10' : ['y4', 'y7', 'y10'], \
+    #  gr.v = { \
+            #  'x1' : ['y3', 'y5', 'y10'], \
+            #  'x2' : ['y3'], \
+            #  'x3' : ['y5', 'y7', 'y10'], \
+            #  'x4' : ['y1'], \
+            #  'x5' : ['y10'], \
+            #  'x6' : ['y6', 'y7'], \
+            #  'x7' : ['y3', 'y5'], \
+            #  'x8' : ['y4', 'y5', 'y6', 'y8'], \
+            #  'x9' : ['y2', 'y4', 'y8'], \
+            #  'x10' : ['y4', 'y7', 'y10'], \
+           #  }
+
+    #  gr.l = set(['x1','x2', 'x3','x4','x5','x6','x7','x8','x9','x10'])
+    #  gr.r = set(['y1','y2', 'y3','y4','y5','y6','y7','y8','y9','y10'])
+
+    gr.v = {
+            'x1' : ['y1', 'y2', 'y6'], \
+            'x2' : ['y2', 'y4'], \
+            'x3' : ['y4', 'y5', ], \
+            'x4' : ['y2', 'y6'], \
+            'x5' : ['y4', 'y6'], \
+            'x6' : ['y1', 'y2'], \
+            'x7' : ['y2', 'y6'], \
+            #  'x8' : ['y4', 'y5', 'y6', 'y8'], \
+            #  'x9' : ['y2', 'y4', 'y8'], \
+            #  'x10' : ['y4', 'y7', 'y10'], \
            }
 
-    gr.l = set(['x1','x2', 'x3','x4','x5','x6','x7','x8','x9','x10'])
-    gr.r = set(['y1','y2', 'y3','y4','y5','y6','y7','y8','y9','y10'])
+    gr.l = set(['x1','x2', 'x3','x4','x5','x6','x7', ])
+    gr.r = set(['y1','y2', 'y3','y4','y5','y6',])
 
     #  make bidirecional
     #  for v in list(gr.v):
